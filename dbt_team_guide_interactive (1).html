@@ -1,0 +1,2321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DBT Team Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root {
+  --cream:   #FAF7F2;
+  --cream2:  #F2EDE4;
+  --cream3:  #E8E0D4;
+  --ink:     #1C1917;
+  --ink2:    #44403C;
+  --ink3:    #78716C;
+  --ink4:    #A8A29E;
+  --white:   #FFFFFF;
+
+  --raw:     #6D28D9;
+  --raw-bg:  #EDE9FE;
+  --raw-mid: #8B5CF6;
+  --trust:   #0369A1;
+  --trust-bg:#E0F2FE;
+  --trust-mid:#0EA5E9;
+  --refined: #065F46;
+  --refined-bg:#D1FAE5;
+  --refined-mid:#10B981;
+  --git:     #C2410C;
+  --git-bg:  #FEF3C7;
+  --gcp:     #1D4ED8;
+
+  --border:  #DDD6CE;
+  --border2: #C8BFB5;
+
+  --mono: 'DM Mono', monospace;
+  --display: 'Fraunces', serif;
+  --body: 'DM Sans', sans-serif;
+
+  --nav-w: 220px;
+  --sidebar-transition: 0.3s ease;
+}
+
+html { scroll-behavior: smooth; font-size: 25px; }
+
+body {
+  font-family: var(--body);
+  background: var(--cream);
+  color: var(--ink);
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ══ SIDEBAR NAV ══ */
+.sidebar {
+  width: var(--nav-w);
+  background: var(--ink);
+  color: var(--cream);
+  position: fixed;
+  top: 0; left: 0; bottom: 0;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  z-index: 100;
+  flex-shrink: 0;
+}
+
+.sidebar-logo {
+  padding: 28px 20px 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.sidebar-logo .eyebrow {
+  font-family: var(--mono);
+  font-size: 14px;
+  letter-spacing: 2px;
+  color: var(--ink4);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.sidebar-logo h2 {
+  font-family: var(--display);
+  font-size: 25px;
+  font-weight: 600;
+  color: var(--cream);
+  line-height: 1.2;
+}
+.sidebar-logo .version {
+  font-family: var(--mono);
+  font-size: 14px;
+  color: var(--ink3);
+  margin-top: 5px;
+}
+
+.nav-section {
+  padding: 16px 0 4px;
+}
+.nav-section-label {
+  font-family: var(--mono);
+  font-size: 14px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--ink3);
+  padding: 0 20px;
+  margin-bottom: 4px;
+}
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 20px;
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--ink4);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  text-decoration: none;
+  border-left: 2px solid transparent;
+}
+.nav-item:hover { background: rgba(255,255,255,0.05); color: var(--cream); }
+.nav-item.active {
+  color: var(--cream);
+  border-left-color: var(--cream3);
+  background: rgba(255,255,255,0.07);
+}
+.nav-item .nav-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.nav-item .nav-num {
+  font-family: var(--mono);
+  font-size: 14px;
+  color: var(--ink3);
+  min-width: 16px;
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  padding: 16px 20px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  font-family: var(--mono);
+  font-size: 14px;
+  color: var(--ink3);
+  line-height: 1.6;
+}
+
+/* ══ MAIN CONTENT ══ */
+.main {
+  margin-left: var(--nav-w);
+  flex: 1;
+  min-width: 0;
+}
+
+/* ══ SECTION ══ */
+.section {
+  padding: 48px 56px;
+  border-bottom: 1px solid var(--border);
+}
+.section:last-child { border-bottom: none; }
+
+/* Hero section */
+.hero {
+  padding: 56px 56px 44px;
+  background: var(--ink);
+  color: var(--cream);
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -60px; right: -60px;
+  width: 320px; height: 320px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(109,40,217,0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -40px; left: 40%;
+  width: 200px; height: 200px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(16,185,129,0.1) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-eyebrow {
+  font-family: var(--mono);
+  font-size: 16px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--ink3);
+  margin-bottom: 16px;
+}
+.hero h1 {
+  font-family: var(--display);
+  font-size: 70px;
+  font-weight: 600;
+  line-height: 1.05;
+  margin-bottom: 20px;
+}
+.hero h1 em {
+  font-style: italic;
+  color: #A78BFA;
+}
+.hero-sub {
+  font-size: 22px;
+  color: var(--ink4);
+  max-width: 100%;
+  line-height: 1.65;
+  margin-bottom: 32px;
+}
+.hero-pills {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.hero-pill {
+  font-family: var(--mono);
+  font-size: 16px;
+  font-weight: 500;
+  padding: 5px 12px;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.12);
+  color: var(--ink4);
+  letter-spacing: 0.3px;
+}
+
+/* Section headers */
+.section-eyebrow {
+  font-family: var(--mono);
+  font-size: 14px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--ink4);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.section-eyebrow::after {
+  content: '';
+  flex: 1;
+  max-width: 40px;
+  height: 1px;
+  background: var(--border2);
+}
+.section-num {
+  font-family: var(--mono);
+  font-size: 14px;
+  color: var(--ink4);
+}
+h2.section-title {
+  font-family: var(--display);
+  font-size: 45px;
+  font-weight: 600;
+  line-height: 1.1;
+  margin-bottom: 14px;
+  color: var(--ink);
+}
+.section-intro {
+  font-size: 22px;
+  color: var(--ink2);
+  line-height: 1.75;
+  max-width: 100%;
+  margin-bottom: 28px;
+}
+
+h3.sub-title {
+  font-family: var(--display);
+  font-size: 28px;
+  font-weight: 600;
+  margin-top: 36px;
+  margin-bottom: 12px;
+  color: var(--ink);
+}
+
+p.body-text {
+  font-size: 21px;
+  color: var(--ink2);
+  line-height: 1.75;
+  margin-bottom: 14px;
+  max-width: 100%;
+}
+
+/* ══ ZONE CARDS ══ */
+.zones-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin: 24px 0;
+}
+.zone-card {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1.5px solid var(--border);
+  display: flex;
+  flex-direction: column;
+}
+.zone-card-header {
+  padding: 16px 18px 14px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+.zone-card-title {
+  font-family: var(--display);
+  font-size: 25px;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+.zone-card-sub {
+  font-size: 17px;
+  opacity: 0.75;
+  font-style: italic;
+}
+.zone-num {
+  font-family: var(--mono);
+  font-size: 38px;
+  font-weight: 300;
+  opacity: 0.25;
+  line-height: 1;
+}
+.zone-card-body {
+  padding: 14px 18px 16px;
+  background: var(--white);
+  flex: 1;
+}
+.zone-card-body ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.zone-card-body li {
+  font-size: 20px;
+  color: var(--ink2);
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  line-height: 1.5;
+}
+.zone-card-body li::before {
+  content: '→';
+  font-family: var(--mono);
+  font-size: 17px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.zone-card-layers {
+  padding: 10px 18px;
+  background: var(--cream2);
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.layer-tag {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 500;
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+/* raw zone */
+.zone-raw .zone-card-header { background: var(--raw-bg); color: var(--raw); }
+.zone-raw .zone-card-body li::before { color: var(--raw); }
+.zone-raw .layer-tag { background: var(--raw-bg); color: var(--raw); border: 1px solid #C4B5FD; }
+
+/* trusted zone */
+.zone-trust .zone-card-header { background: var(--trust-bg); color: var(--trust); }
+.zone-trust .zone-card-body li::before { color: var(--trust); }
+.zone-trust .layer-tag { background: var(--trust-bg); color: var(--trust); border: 1px solid #7DD3FC; }
+
+/* refined zone */
+.zone-refined .zone-card-header { background: var(--refined-bg); color: var(--refined); }
+.zone-refined .zone-card-body li::before { color: var(--refined); }
+.zone-refined .layer-tag { background: var(--refined-bg); color: var(--refined); border: 1px solid #6EE7B7; }
+
+/* ══ ARCH FLOW ══ */
+.arch-flow {
+  display: grid;
+  grid-template-columns: 1fr 76px 1fr 76px 1fr 76px 1fr 76px 1fr;
+  align-items: start;
+  gap: 0;
+  margin: 24px 0;
+  overflow-x: auto;
+}
+.arch-col { display: flex; flex-direction: column; gap: 6px; }
+.arch-arrow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 36px;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+.arch-arrow svg { overflow: visible; }
+.xrepo {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--ink4);
+  text-align: center;
+  background: var(--cream2);
+  border: 1px solid var(--border2);
+  border-radius: 4px;
+  padding: 3px 6px;
+  white-space: nowrap;
+  max-width: 74px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.4;
+}
+.arch-zone-hdr {
+  font-family: var(--mono);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  padding: 5px 8px;
+  border-radius: 5px;
+  text-align: center;
+  margin-bottom: 2px;
+}
+.arch-card {
+  border-radius: 8px;
+  padding: 10px 12px;
+  border: 1.5px solid var(--border);
+  background: var(--white);
+}
+.arch-card-title {
+  font-family: var(--mono);
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 3px;
+}
+.arch-card-body { font-size: 18px; color: var(--ink3); line-height: 1.45; }
+.arch-tag {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 13px;
+  padding: 1px 5px;
+  border-radius: 3px;
+  margin-top: 4px;
+  margin-right: 2px;
+  border: 1px solid;
+}
+.arch-badge {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 2px 6px;
+  border-radius: 3px;
+  border: 1px solid;
+  margin-bottom: 4px;
+}
+.gcp-wrap-sm { position: relative; margin-top: 16px; }
+.gcp-frame-sm {
+  border: 2px dashed;
+  border-radius: 8px;
+  padding: 8px 6px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.gcp-lbl-sm {
+  position: absolute; top: -9px; left: 8px;
+  background: var(--cream);
+  padding: 0 5px;
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gcp);
+  white-space: nowrap;
+}
+.layer-div { height: 1px; background: var(--border); margin: 1px 0; }
+.layer-lbl-sm {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 3px;
+  border: 1px solid;
+  display: inline-block;
+  letter-spacing: 0.3px;
+}
+
+/* ══ NAMING TABLE ══ */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+  font-size: 20px;
+}
+.data-table th {
+  font-family: var(--mono);
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--ink3);
+  padding: 10px 14px;
+  border-bottom: 2px solid var(--border2);
+  text-align: left;
+  background: var(--cream2);
+}
+.data-table td {
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--border);
+  color: var(--ink2);
+  vertical-align: top;
+}
+.data-table tr:last-child td { border-bottom: none; }
+.data-table tr:hover td { background: var(--cream2); }
+.mono-cell {
+  font-family: var(--mono);
+  font-size: 19px;
+  font-weight: 500;
+}
+
+/* ══ CODE BLOCK ══ */
+.code-block {
+  background: var(--ink);
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 16px 0;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+.code-block-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: rgba(255,255,255,0.04);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.code-block-header .dots {
+  display: flex; gap: 5px;
+}
+.code-block-header .dot {
+  width: 9px; height: 9px; border-radius: 50%;
+}
+.code-block-label {
+  font-family: var(--mono);
+  font-size: 15px;
+  color: var(--ink3);
+  margin-left: auto;
+}
+.code-block pre {
+  padding: 16px 20px;
+  font-family: var(--mono);
+  font-size: 19px;
+  line-height: 1.7;
+  color: #CBD5E1;
+  overflow-x: auto;
+}
+.code-block pre .kw { color: #C084FC; }
+.code-block pre .str { color: #86EFAC; }
+.code-block pre .cmt { color: #64748B; font-style: italic; }
+.code-block pre .fn { color: #67E8F9; }
+.code-block pre .ok { color: #4ADE80; }
+.code-block pre .no { color: #F87171; }
+
+/* ══ CALLOUT ══ */
+.callout {
+  border-radius: 10px;
+  padding: 16px 20px;
+  margin: 16px 0;
+  border-left: 4px solid;
+}
+.callout-title {
+  font-family: var(--mono);
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.callout-body {
+  font-size: 21px;
+  line-height: 1.7;
+}
+.callout-body ul { margin-left: 16px; margin-top: 6px; }
+.callout-body li { margin-bottom: 4px; }
+.callout.info {
+  background: var(--trust-bg);
+  border-color: var(--trust-mid);
+}
+.callout.info .callout-title { color: var(--trust); }
+.callout.info .callout-body { color: #0C4A6E; }
+.callout.warn {
+  background: var(--git-bg);
+  border-color: var(--git);
+}
+.callout.warn .callout-title { color: var(--git); }
+.callout.warn .callout-body { color: #7C2D12; }
+.callout.tip {
+  background: var(--refined-bg);
+  border-color: var(--refined-mid);
+}
+.callout.tip .callout-title { color: var(--refined); }
+.callout.tip .callout-body { color: #064E3B; }
+.callout.raw-note {
+  background: var(--raw-bg);
+  border-color: var(--raw-mid);
+}
+.callout.raw-note .callout-title { color: var(--raw); }
+.callout.raw-note .callout-body { color: #3B0764; }
+
+/* ══ CHECKLIST ══ */
+.checklist {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 16px 0;
+}
+.check-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 14px;
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  user-select: none;
+}
+.check-item:hover { border-color: var(--border2); }
+.check-item.checked {
+  background: var(--cream2);
+  border-color: var(--refined-mid);
+}
+.check-box {
+  width: 18px; height: 18px;
+  border-radius: 5px;
+  border: 2px solid var(--border2);
+  flex-shrink: 0;
+  margin-top: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, border-color 0.15s;
+}
+.check-item.checked .check-box {
+  background: var(--refined-mid);
+  border-color: var(--refined-mid);
+}
+.check-box-tick {
+  width: 10px; height: 10px;
+  display: none;
+}
+.check-item.checked .check-box-tick { display: block; }
+.check-text {
+  font-size: 21px;
+  color: var(--ink2);
+  line-height: 1.5;
+}
+.check-item.checked .check-text {
+  color: var(--ink3);
+  text-decoration: line-through;
+  text-decoration-color: var(--ink4);
+}
+.check-badge {
+  margin-left: auto;
+  font-family: var(--mono);
+  font-size: 14px;
+  padding: 2px 7px;
+  border-radius: 10px;
+  border: 1px solid;
+  flex-shrink: 0;
+}
+
+/* ══ GIT FLOW VISUAL ══ */
+.git-flow-visual {
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+  overflow-x: auto;
+  padding: 32px 0 16px;
+  margin: 20px 0;
+}
+.git-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.git-node-circle {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+}
+.git-node-label {
+  font-family: var(--mono);
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+  white-space: nowrap;
+}
+.git-connector-h {
+  height: 3px;
+  width: 72px;
+  flex-shrink: 0;
+  align-self: flex-start;
+  margin-top: 20px;
+}
+.git-branch-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  flex-shrink: 0;
+}
+.git-branch-stem {
+  width: 3px;
+  height: 24px;
+}
+.git-branches {
+  display: flex;
+  gap: 20px;
+}
+.git-branch-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+.git-branch-dot {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  border: 2px solid;
+  background: var(--cream);
+}
+.git-branch-label {
+  font-family: var(--mono);
+  font-size: 13px;
+  text-align: center;
+  white-space: nowrap;
+  line-height: 1.3;
+}
+.pr-badge-sm {
+  font-family: var(--mono);
+  font-size: 13px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: var(--git-bg);
+  color: var(--git);
+  border: 1px solid #FDBA74;
+  white-space: nowrap;
+}
+
+/* ══ TABS ══ */
+.tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 2px solid var(--border);
+  margin-bottom: 20px;
+}
+.tab-btn {
+  font-family: var(--mono);
+  font-size: 17px;
+  font-weight: 500;
+  padding: 10px 18px;
+  cursor: pointer;
+  color: var(--ink3);
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  transition: color 0.15s, border-color 0.15s;
+  background: none;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+}
+.tab-btn:hover { color: var(--ink); }
+.tab-btn.active { color: var(--ink); border-bottom-color: var(--ink); }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* ══ PROGRESS TRACKER ══ */
+.progress-bar-wrap {
+  background: var(--cream2);
+  border-radius: 6px;
+  height: 6px;
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+.progress-bar {
+  height: 100%;
+  background: var(--refined-mid);
+  border-radius: 6px;
+  transition: width 0.3s ease;
+}
+.progress-label {
+  font-family: var(--mono);
+  font-size: 16px;
+  color: var(--ink3);
+}
+
+/* ══ INLINE BADGE ══ */
+.badge {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 16px;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 4px;
+  border: 1px solid;
+  vertical-align: middle;
+  line-height: 1.4;
+}
+.badge-raw { background: var(--raw-bg); color: var(--raw); border-color: #C4B5FD; }
+.badge-trust { background: var(--trust-bg); color: var(--trust); border-color: #7DD3FC; }
+.badge-refined { background: var(--refined-bg); color: var(--refined); border-color: #6EE7B7; }
+.badge-git { background: var(--git-bg); color: var(--git); border-color: #FCD34D; }
+.badge-gcp { background: #EFF6FF; color: var(--gcp); border-color: #93C5FD; }
+
+/* ══ TWO COLUMNS ══ */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 16px 0; }
+.three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin: 16px 0; }
+
+/* ══ RULE CARD ══ */
+.rule-card {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 16px;
+}
+.rule-card-title {
+  font-family: var(--mono);
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.rule-card ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.rule-card li {
+  font-size: 20px;
+  color: var(--ink2);
+  display: flex;
+  gap: 6px;
+  line-height: 1.5;
+}
+.rule-card li .arrow { color: var(--ink4); flex-shrink: 0; font-family: var(--mono); font-size: 16px; }
+
+/* ══ PHASE TIMELINE ══ */
+.phases {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 20px 0;
+  position: relative;
+}
+.phases::before {
+  content: '';
+  position: absolute;
+  left: 24px;
+  top: 0; bottom: 0;
+  width: 2px;
+  background: var(--border2);
+}
+.phase-item {
+  display: flex;
+  gap: 20px;
+  padding-bottom: 28px;
+  position: relative;
+}
+.phase-dot {
+  width: 50px;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  padding-top: 2px;
+}
+.phase-dot-inner {
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  border: 2.5px solid var(--border2);
+  background: var(--cream);
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.phase-dot-inner.active {
+  border-color: var(--refined-mid);
+  background: var(--refined-bg);
+}
+.phase-content {
+  flex: 1;
+  padding-top: 0;
+}
+.phase-label {
+  font-family: var(--mono);
+  font-size: 14px;
+  color: var(--ink4);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.phase-title {
+  font-family: var(--display);
+  font-size: 25px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+.phase-body {
+  font-size: 21px;
+  color: var(--ink2);
+  line-height: 1.7;
+  margin-bottom: 10px;
+  max-width: 100%;
+}
+.phase-done {
+  font-family: var(--mono);
+  font-size: 16px;
+  color: var(--refined);
+  font-style: italic;
+}
+
+/* ══ QUICK REF COMMAND ══ */
+.cmd-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 12px 0;
+}
+.cmd-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 14px;
+  background: var(--ink);
+  border-radius: 7px;
+}
+.cmd-code {
+  font-family: var(--mono);
+  font-size: 19px;
+  color: #86EFAC;
+  flex: 1;
+}
+.cmd-desc {
+  font-size: 19px;
+  color: var(--ink3);
+  white-space: nowrap;
+}
+
+/* ══ ANIMATIONS ══ */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.section { animation: fadeUp 0.4s ease both; }
+.hero { animation: fadeUp 0.35s ease both; }
+
+/* ══ SCROLLBAR ══ */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: var(--cream2); }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+
+/* ══ RESPONSIVE ══ */
+@media (max-width: 900px) {
+  :root { --nav-w: 0px; }
+  .sidebar { display: none; }
+  .section, .hero { padding: 28px 20px; }
+  .zones-grid { grid-template-columns: 1fr; }
+  .two-col, .three-col { grid-template-columns: 1fr; }
+  .arch-flow { overflow-x: auto; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══ SIDEBAR ══ -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <div class="eyebrow">Data Engineering</div>
+    <h2>DBT Team Guide</h2>
+    <div class="version">v1.6 · May 2026</div>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-label">Overview</div>
+    <a class="nav-item active" href="#intro" onclick="setActive(this)">
+      <div class="nav-dot" style="background:#A78BFA"></div>
+      <span>Introduction</span>
+    </a>
+    <a class="nav-item" href="#philosophy" onclick="setActive(this)">
+      <div class="nav-dot" style="background:#A78BFA"></div>
+      <span>Architecture Philosophy</span>
+    </a>
+    <a class="nav-item" href="#zones" onclick="setActive(this)">
+      <div class="nav-dot" style="background:#A78BFA"></div>
+      <span>Zone Architecture</span>
+    </a>
+    <a class="nav-item" href="#trusted-depth" onclick="setActive(this)">
+      <div class="nav-dot" style="background:#38BDF8"></div>
+      <span>Trusted Zone — In Depth</span>
+    </a>
+    <a class="nav-item" href="#refined-depth" onclick="setActive(this)">
+      <div class="nav-dot" style="background:#34D399"></div>
+      <span>Refined Zone — In Depth</span>
+    </a>
+    <a class="nav-item" href="#lineage" onclick="setActive(this)">
+      <div class="nav-dot" style="background:#A78BFA"></div>
+      <span>Lineage &amp; Cross-Zone Flow</span>
+    </a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-label">Standards</div>
+    <a class="nav-item" href="#structure" onclick="setActive(this)">
+      <div class="nav-dot" style="background:#38BDF8"></div>
+      <span>Project Structure</span>
+    </a>
+    <a class="nav-item" href="#naming" onclick="setActive(this)">
+      <div class="nav-dot" style="background:#38BDF8"></div>
+      <span>Naming Conventions</span>
+    </a>
+    <a class="nav-item" href="#materialization" onclick="setActive(this)">
+      <div class="nav-dot" style="background:#38BDF8"></div>
+      <span>Materialization</span>
+    </a>
+    <a class="nav-item" href="#testing" onclick="setActive(this)">
+      <div class="nav-dot" style="background:#38BDF8"></div>
+      <span>Testing</span>
+    </a>
+    <a class="nav-item" href="#docs" onclick="setActive(this)">
+      <div class="nav-dot" style="background:#38BDF8"></div>
+      <span>Documentation</span>
+    </a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-label">Workflow</div>
+    <a class="nav-item" href="#git" onclick="setActive(this)">
+      <div class="nav-dot" style="background:#FB923C"></div>
+      <span>Git Workflow</span>
+    </a>
+    <a class="nav-item" href="#ci" onclick="setActive(this)">
+      <div class="nav-dot" style="background:#FB923C"></div>
+      <span>CI Pipeline</span>
+    </a>
+    <a class="nav-item" href="#rollout" onclick="setActive(this)">
+      <div class="nav-dot" style="background:#FB923C"></div>
+      <span>Rollout Plan</span>
+    </a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-label">Reference</div>
+    <a class="nav-item" href="#checklist" onclick="setActive(this)">
+      <div class="nav-dot" style="background:#34D399"></div>
+      <span>PR Checklist</span>
+    </a>
+    <a class="nav-item" href="#commands" onclick="setActive(this)">
+      <div class="nav-dot" style="background:#34D399"></div>
+      <span>Commands</span>
+    </a>
+  </div>
+
+  <div class="sidebar-footer">
+    Data Engineering Team<br>
+    Internal use only
+  </div>
+</nav>
+
+<!-- ══ MAIN ══ -->
+<div class="main">
+
+<!-- HERO -->
+<div class="hero" id="intro">
+  <div class="hero-eyebrow">Data Engineering · DBT Team Guide</div>
+  <h1>How we <em>build</em><br>data products.</h1>
+  <p class="hero-sub">A practical guide to our DBT architecture, zone model, naming conventions, Git workflow, and quality standards. Follow this and the codebase stays clean for everyone.</p>
+  <div class="hero-pills">
+    <span class="hero-pill">3 GCP Projects</span>
+    <span class="hero-pill">3 GitHub Repos</span>
+    <span class="hero-pill">Medallion Architecture</span>
+    <span class="hero-pill">Raw → Trusted → Refined</span>
+    <span class="hero-pill">Data Mesh + Data Lake</span>
+    <span class="hero-pill">DBT</span>
+  </div>
+</div>
+
+<!-- ARCHITECTURE PHILOSOPHY -->
+<div class="section" id="philosophy">
+  <div class="section-eyebrow"><span class="section-num">01</span> Philosophy</div>
+  <h2 class="section-title">Architecture Philosophy</h2>
+  <p class="section-intro">Our platform is structured as a <strong>data lake with a medallion-like architecture</strong> — a widely adopted pattern where data is progressively cleansed, enriched, and refined as it moves through distinct layers. We combine this with Data Mesh principles to define ownership and standards on top of the physical structure.</p>
+
+  <h3 class="sub-title">Medallion Pattern — How Our Zones Map</h3>
+  <table class="data-table">
+    <thead>
+      <tr><th>Medallion Layer</th><th>Our Zone</th><th>GCP Project</th><th>GitHub Repo</th><th>Purpose</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="badge" style="background:#F3E8FF;color:#6D28D9;border-color:#C4B5FD">Bronze</span></td>
+        <td>Raw Zone</td>
+        <td class="mono-cell">project-raw</td>
+        <td class="mono-cell">dbt-raw</td>
+        <td>Land data exactly as it arrives. Immutable. No transformations.</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-trust">Silver</span></td>
+        <td>Trusted Zone</td>
+        <td class="mono-cell">project-trusted</td>
+        <td class="mono-cell">dbt-trusted</td>
+        <td>Cleanse, standardize, and structurally enrich. Safe to build on.</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-refined">Gold</span></td>
+        <td>Refined Zone</td>
+        <td class="mono-cell">project-refined</td>
+        <td class="mono-cell">dbt-refined</td>
+        <td>Apply business rules. Produce consumable data products for reporting and analytics.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p class="body-text" style="margin-top:16px">Each zone is a distinct GCP project and a distinct GitHub repository. This is an intentional boundary — access control, CI pipelines, and Cloud Run deploy triggers are fully isolated per zone. Cross-zone references are resolved via BigQuery dataset references between projects, not internal DBT refs within a single repo.</p>
+
+  <h3 class="sub-title">Data Mesh Principles</h3>
+  <div class="two-col">
+    <div class="rule-card">
+      <div class="rule-card-title"><span style="font-size:16px">◈</span> Data as a Product</div>
+      <ul>
+        <li><span class="arrow">→</span>Every model has a defined consumer</li>
+        <li><span class="arrow">→</span>Clear interface, tests, and documentation</li>
+        <li><span class="arrow">→</span>Grain always explicit — one row per what</li>
+        <li><span class="arrow">→</span>Accountable engineer for each product</li>
+      </ul>
+    </div>
+    <div class="rule-card">
+      <div class="rule-card-title"><span style="font-size:16px">◈</span> Federated Governance</div>
+      <ul>
+        <li><span class="arrow">→</span>Standards agreed collectively</li>
+        <li><span class="arrow">→</span>Applied consistently across all zones</li>
+        <li><span class="arrow">→</span>This guide is that agreement</li>
+        <li><span class="arrow">→</span>Evolves as the team grows</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ZONES -->
+<div class="section" id="zones">
+  <div class="section-eyebrow"><span class="section-num">02</span> Architecture</div>
+  <h2 class="section-title">Zone Architecture</h2>
+  <p class="section-intro">Data moves through three zones as it becomes progressively more trusted and business-ready. Each zone is a distinct GCP project and GitHub repository.</p>
+
+  <div class="zones-grid">
+    <div class="zone-card zone-raw">
+      <div class="zone-card-header">
+        <div>
+          <div class="zone-card-title">Raw Zone</div>
+          <div class="zone-card-sub">Unmodified source data</div>
+        </div>
+        <div class="zone-num">01</div>
+      </div>
+      <div class="zone-card-body">
+        <ul>
+          <li>Source system data landed as-is</li>
+          <li>Schema and content preserved exactly</li>
+          <li>Immutable — never modified after landing</li>
+          <li>Engineering team access only</li>
+          <li>Referenced only via source() macros</li>
+        </ul>
+      </div>
+      <div class="zone-card-layers">
+        <span class="layer-tag">GCP: project-raw</span>
+        <span class="layer-tag">sources.yml</span>
+      </div>
+    </div>
+    <div class="zone-card zone-trust">
+      <div class="zone-card-header">
+        <div>
+          <div class="zone-card-title">Trusted Zone</div>
+          <div class="zone-card-sub">Cleansed &amp; standardized</div>
+        </div>
+        <div class="zone-num">02</div>
+      </div>
+      <div class="zone-card-body">
+        <ul>
+          <li>Validated against quality rules</li>
+          <li>Column names standardized, types cast</li>
+          <li>Structural logic — joins and enrichments</li>
+          <li>Engineers and senior analysts access</li>
+          <li>stg_ and int_ layers</li>
+        </ul>
+      </div>
+      <div class="zone-card-layers">
+        <span class="layer-tag">GCP: project-trusted</span>
+        <span class="layer-tag">stg_ + int_</span>
+      </div>
+    </div>
+    <div class="zone-card zone-refined">
+      <div class="zone-card-header">
+        <div>
+          <div class="zone-card-title">Refined Zone</div>
+          <div class="zone-card-sub">Business-ready data products</div>
+        </div>
+        <div class="zone-num">03</div>
+      </div>
+      <div class="zone-card-body">
+        <ul>
+          <li>Business rules and KPI logic applied</li>
+          <li>Fully documented and tested</li>
+          <li>Grain explicitly defined</li>
+          <li>Exposed to BI tools and analysts</li>
+          <li>int_ (business logic) + fct_ / dim_</li>
+        </ul>
+      </div>
+      <div class="zone-card-layers">
+        <span class="layer-tag">GCP: project-refined</span>
+        <span class="layer-tag">int_ + fct_ + dim_</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mini arch flow -->
+  <h3 class="sub-title">Architecture Flow</h3>
+  <div class="arch-flow">
+
+    <!-- SOURCES -->
+    <div class="arch-col">
+      <div class="arch-zone-hdr" style="color:#92400E;background:#FEF3C7;">Sources</div>
+      <div class="arch-card"><div class="arch-card-title" style="color:#92400E">ERP system</div><div class="arch-card-body">Orders, products, inventory</div></div>
+      <div class="arch-card"><div class="arch-card-title" style="color:#92400E">Finance platform</div><div class="arch-card-body">Invoices, payments, billing</div></div>
+      <div class="arch-card"><div class="arch-card-title" style="color:#92400E">CRM</div><div class="arch-card-body">Customers, accounts</div></div>
+      <div class="arch-card"><div class="arch-card-title" style="color:#92400E">Event streams</div><div class="arch-card-body">Clickstream, app events</div></div>
+    </div>
+    <div class="arch-arrow">
+      <svg width="34" height="12" viewBox="0 0 34 12"><defs><marker id="b1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M1 1L8 5L1 9" fill="none" stroke="#D97706" stroke-width="1.5" stroke-linecap="round"/></marker></defs><line x1="1" y1="6" x2="32" y2="6" stroke="#D97706" stroke-width="1.5" stroke-dasharray="3 2" marker-end="url(#b1)"/></svg>
+    </div>
+
+    <!-- LANDING -->
+    <div class="arch-col">
+      <div class="arch-zone-hdr" style="color:#44403C;background:#F5F5F4;">Landing</div>
+      <div class="arch-card"><div class="arch-card-title">Cloud storage (GCS)</div><div class="arch-card-body">Raw files as-is. Immutable after landing.</div><span class="arch-tag" style="background:#F5F5F4;color:#78716C;border-color:#D6D3D1">GCS</span></div>
+      <div class="arch-card"><div class="arch-card-title">Ingestion log</div><div class="arch-card-body">_loaded_at · row counts · schema</div></div>
+    </div>
+    <div class="arch-arrow">
+      <svg width="34" height="12" viewBox="0 0 34 12"><defs><marker id="b2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M1 1L8 5L1 9" fill="none" stroke="#7C3AED" stroke-width="1.5" stroke-linecap="round"/></marker></defs><line x1="1" y1="6" x2="32" y2="6" stroke="#7C3AED" stroke-width="1.5" marker-end="url(#b2)"/></svg>
+    </div>
+
+    <!-- RAW -->
+    <div class="arch-col">
+      <div class="gcp-wrap-sm">
+        <div class="gcp-lbl-sm">GCP: project-raw</div>
+        <div class="gcp-frame-sm" style="border-color:#7C3AED;background:#F5F0FF">
+          <div class="arch-zone-hdr raw-hdr" style="margin-top:4px;color:#5B21B6;background:#EDE9FE;">Raw Zone</div>
+          <span class="arch-badge" style="background:#EDE9FE;color:#5B21B6;border-color:#C4B5FD">sources.yml</span>
+          <div class="arch-card raw-card"><div class="arch-card-title" style="color:#5B21B6">Source declarations</div><div class="arch-card-body">source() macros. Immutable.</div><span class="arch-tag" style="background:#EDE9FE;color:#5B21B6;border-color:#C4B5FD">source()</span></div>
+          <div class="arch-card raw-card"><div class="arch-card-title" style="color:#5B21B6">Freshness tests</div><div class="arch-card-body">warn 12h · error 24h</div></div>
+          <div class="arch-card ci-card"><div class="arch-card-title" style="color:#9A3412">CI · dbt-raw</div><div class="arch-card-body">compile · freshness · feature→dev→main</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="arch-arrow">
+      <svg width="34" height="12" viewBox="0 0 34 12"><defs><marker id="b3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M1 1L8 5L1 9" fill="none" stroke="#0EA5E9" stroke-width="1.5" stroke-linecap="round"/></marker></defs><line x1="1" y1="6" x2="32" y2="6" stroke="#0EA5E9" stroke-width="1.5" marker-end="url(#b3)"/></svg>
+      <div class="xrepo">cross-repo · via BQ</div>
+    </div>
+
+    <!-- TRUSTED -->
+    <div class="arch-col">
+      <div class="gcp-wrap-sm">
+        <div class="gcp-lbl-sm">GCP: project-trusted</div>
+        <div class="gcp-frame-sm" style="border-color:#0EA5E9;background:#EFF8FF">
+          <div class="arch-zone-hdr" style="margin-top:4px;color:#0369A1;background:#E0F2FE;">Trusted Zone</div>
+          <span class="layer-lbl-sm" style="background:#DBEAFE;color:#1D4ED8;border-color:#93C5FD">Staging layer</span>
+          <div class="arch-card trt-card"><div class="arch-card-title" style="color:#0369A1">stg_ models</div><div class="arch-card-body">Rename, cast, clean only.</div><span class="arch-tag" style="background:#E0F2FE;color:#0369A1;border-color:#7DD3FC">view</span></div>
+          <div class="layer-div"></div>
+          <span class="layer-lbl-sm" style="background:#E0F2FE;color:#0284C7;border-color:#7DD3FC">Intermediate layer</span>
+          <div class="arch-card trt-card"><div class="arch-card-title" style="color:#0369A1">int_ models</div><div class="arch-card-body">Joins, enrichments, structural logic.</div><span class="arch-tag" style="background:#E0F2FE;color:#0369A1;border-color:#7DD3FC">view</span></div>
+          <div class="arch-card ci-card"><div class="arch-card-title" style="color:#9A3412">CI · dbt-trusted</div><div class="arch-card-body">compile · dbt test → dev → main</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="arch-arrow">
+      <svg width="34" height="12" viewBox="0 0 34 12"><defs><marker id="b4" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M1 1L8 5L1 9" fill="none" stroke="#10B981" stroke-width="1.5" stroke-linecap="round"/></marker></defs><line x1="1" y1="6" x2="32" y2="6" stroke="#10B981" stroke-width="1.5" marker-end="url(#b4)"/></svg>
+      <div class="xrepo">cross-repo · via BQ</div>
+    </div>
+
+    <!-- REFINED -->
+    <div class="arch-col">
+      <div class="gcp-wrap-sm">
+        <div class="gcp-lbl-sm">GCP: project-refined</div>
+        <div class="gcp-frame-sm" style="border-color:#10B981;background:#F0FDF6">
+          <div class="arch-zone-hdr" style="margin-top:4px;color:#065F46;background:#D1FAE5;">Refined Zone</div>
+          <span class="layer-lbl-sm" style="background:#DCFCE7;color:#059669;border-color:#86EFAC">Intermediate layer</span>
+          <div class="arch-card ref-card"><div class="arch-card-title" style="color:#065F46">int_ models</div><div class="arch-card-body">Business rules, KPI logic.</div><span class="arch-tag" style="background:#D1FAE5;color:#065F46;border-color:#6EE7B7">ephemeral</span></div>
+          <div class="layer-div"></div>
+          <span class="layer-lbl-sm" style="background:#D1FAE5;color:#065F46;border-color:#6EE7B7">Mart layer</span>
+          <div class="arch-card ref-card"><div class="arch-card-title" style="color:#065F46">fct_ models</div><div class="arch-card-body">Facts at defined grain.</div><span class="arch-tag" style="background:#D1FAE5;color:#065F46;border-color:#6EE7B7">table</span></div>
+          <div class="arch-card ref-card"><div class="arch-card-title" style="color:#065F46">dim_ models</div><div class="arch-card-body">Customers, products, dates.</div><span class="arch-tag" style="background:#D1FAE5;color:#065F46;border-color:#6EE7B7">table</span></div>
+          <div class="arch-card ci-card"><div class="arch-card-title" style="color:#9A3412">CI · dbt-refined</div><div class="arch-card-body">Full test suite · peer review</div></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- TRUSTED ZONE IN DEPTH -->
+<div class="section" id="trusted-depth">
+  <div class="section-eyebrow"><span class="section-num">03</span> Deep Dive</div>
+  <h2 class="section-title">Trusted Zone — In Depth</h2>
+  <p class="section-intro">The Trusted Zone (Silver layer) is where raw data becomes reliable. It contains exactly two DBT layers: staging and intermediate. Both live in <span class="badge badge-trust">dbt-trusted</span> and run against <span class="badge badge-gcp">project-trusted</span>.</p>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab(this,'trust-stg')">Staging (stg_)</button>
+    <button class="tab-btn" onclick="switchTab(this,'trust-int')">Intermediate (int_)</button>
+    <button class="tab-btn" onclick="switchTab(this,'trust-structure')">Folder structure</button>
+  </div>
+
+  <div id="trust-stg" class="tab-panel active">
+    <div class="callout info">
+      <div class="callout-title">When to use stg_</div>
+      <div class="callout-body">
+        One model per source table, always. Rename columns, cast types, apply basic null handling. Nothing else.
+        <ul>
+          <li>Column renaming and type casting</li>
+          <li>Removing obvious duplicates that arrive from the source</li>
+          <li>Basic null coalescing on known-noisy fields</li>
+          <li><strong>Never:</strong> joins, aggregations, business logic, or filtering beyond deduplication</li>
+        </ul>
+      </div>
+    </div>
+    <div class="code-block" style="margin-top:16px">
+      <div class="code-block-header">
+        <div class="dots"><div class="dot" style="background:#FF5F57"></div><div class="dot" style="background:#FFBD2E"></div><div class="dot" style="background:#28C840"></div></div>
+        <span class="code-block-label">models/staging/stg_orders.sql — dbt-trusted</span>
+      </div>
+      <pre>
+<span class="cmt">-- Materialization: view  |  Repo: dbt-trusted</span>
+
+<span class="kw">with</span> source <span class="kw">as</span> (
+    <span class="kw">select</span> * <span class="kw">from</span> <span class="fn">{{ source('raw_operations', 'orders') }}</span>
+),
+
+renamed <span class="kw">as</span> (
+    <span class="kw">select</span>
+        order_id::string          <span class="kw">as</span> order_id,
+        customer_id::string       <span class="kw">as</span> customer_id,
+        order_date::date          <span class="kw">as</span> order_date,
+        status::string            <span class="kw">as</span> status,
+        total_amount_cents::int   <span class="kw">as</span> total_amount_cents,
+        <span class="fn">coalesce</span>(currency, <span class="str">'GBP'</span>) <span class="kw">as</span> currency,
+        _loaded_at               <span class="kw">as</span> loaded_at
+    <span class="kw">from</span> source
+)
+
+<span class="kw">select</span> * <span class="kw">from</span> renamed</pre>
+    </div>
+  </div>
+
+  <div id="trust-int" class="tab-panel">
+    <div class="callout info">
+      <div class="callout-title">When to use int_ in Trusted Zone</div>
+      <div class="callout-body">
+        Structural logic only — joining, enriching, and building reusable datasets. The key distinction from Refined int_ is intent: Trusted intermediates are about <strong>data structure and quality</strong>, not business meaning.
+        <ul>
+          <li>Joining two or more stg_ models together</li>
+          <li>Enriching records with reference data or lookups</li>
+          <li>Building a reusable dataset referenced by multiple Refined models</li>
+          <li><strong>Never:</strong> business KPIs, revenue calculations, business rule filters, or metric definitions</li>
+        </ul>
+      </div>
+    </div>
+    <div class="code-block" style="margin-top:16px">
+      <div class="code-block-header">
+        <div class="dots"><div class="dot" style="background:#FF5F57"></div><div class="dot" style="background:#FFBD2E"></div><div class="dot" style="background:#28C840"></div></div>
+        <span class="code-block-label">models/intermediate/int_orders_with_customer.sql — dbt-trusted</span>
+      </div>
+      <pre>
+<span class="cmt">-- Materialization: view  |  Repo: dbt-trusted</span>
+<span class="cmt">-- Structural join only — no business logic</span>
+
+<span class="kw">with</span> orders <span class="kw">as</span> (
+    <span class="kw">select</span> * <span class="kw">from</span> <span class="fn">{{ ref('stg_orders') }}</span>
+),
+
+customers <span class="kw">as</span> (
+    <span class="kw">select</span> * <span class="kw">from</span> <span class="fn">{{ ref('stg_customers') }}</span>
+),
+
+joined <span class="kw">as</span> (
+    <span class="kw">select</span>
+        o.order_id,
+        o.order_date,
+        o.status,
+        o.total_amount_cents,
+        o.currency,
+        c.customer_id,
+        c.customer_name,
+        c.country_code
+    <span class="kw">from</span> orders o
+    <span class="kw">left join</span> customers c <span class="kw">on</span> o.customer_id = c.customer_id
+)
+
+<span class="kw">select</span> * <span class="kw">from</span> joined</pre>
+    </div>
+  </div>
+
+  <div id="trust-structure" class="tab-panel">
+    <div class="code-block">
+      <div class="code-block-header">
+        <div class="dots"><div class="dot" style="background:#FF5F57"></div><div class="dot" style="background:#FFBD2E"></div><div class="dot" style="background:#28C840"></div></div>
+        <span class="code-block-label">dbt-trusted repo — folder layout</span>
+      </div>
+      <pre>
+models/
+  staging/                       <span class="cmt">← stg_ models: one per source table</span>
+    stg_orders.sql
+    stg_customers.sql
+    stg_invoices.sql
+    stg_payments.sql
+    stg_products.sql
+  intermediate/                  <span class="cmt">← int_ models: structural joins and enrichments</span>
+    int_orders_with_customer.sql
+    int_invoices_enriched.sql
+    int_payments_reconciled.sql
+  sources/
+    sources.yml                  <span class="cmt">← source() declarations for all raw tables</span>
+  schema.yml                     <span class="cmt">← tests and descriptions for all models</span></pre>
+    </div>
+  </div>
+</div>
+
+<!-- REFINED ZONE IN DEPTH -->
+<div class="section" id="refined-depth">
+  <div class="section-eyebrow"><span class="section-num">04</span> Deep Dive</div>
+  <h2 class="section-title">Refined Zone — In Depth</h2>
+  <p class="section-intro">The Refined Zone (Gold layer) is where data becomes a product. It contains three DBT layers: intermediate (business logic), facts, and dimensions. All three live in <span class="badge badge-refined">dbt-refined</span> and run against <span class="badge badge-gcp">project-refined</span>.</p>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab(this,'ref-int')">Intermediate (int_)</button>
+    <button class="tab-btn" onclick="switchTab(this,'ref-fct')">Facts (fct_)</button>
+    <button class="tab-btn" onclick="switchTab(this,'ref-dim')">Dimensions (dim_)</button>
+    <button class="tab-btn" onclick="switchTab(this,'ref-structure')">Folder structure</button>
+  </div>
+
+  <div id="ref-int" class="tab-panel active">
+    <div class="callout tip">
+      <div class="callout-title">When to use int_ in Refined Zone</div>
+      <div class="callout-body">
+        This is where <strong>business rules live</strong>. Refined intermediates transform structurally-sound trusted data into business-meaningful outputs. They are ephemeral because they exist to power mart outputs, not to be queried directly.
+        <ul>
+          <li>Applying business rules: which orders count as revenue, what defines a confirmed customer</li>
+          <li>Calculating KPIs: revenue, margin, conversion rate, churn logic</li>
+          <li>Complex aggregations that power multiple fact tables</li>
+          <li>Shared logic reused across multiple fct_ or dim_ models</li>
+        </ul>
+      </div>
+    </div>
+    <div class="code-block" style="margin-top:16px">
+      <div class="code-block-header">
+        <div class="dots"><div class="dot" style="background:#FF5F57"></div><div class="dot" style="background:#FFBD2E"></div><div class="dot" style="background:#28C840"></div></div>
+        <span class="code-block-label">models/intermediate/int_revenue_recognized.sql — dbt-refined</span>
+      </div>
+      <pre>
+<span class="cmt">-- Materialization: ephemeral  |  Repo: dbt-refined</span>
+<span class="cmt">-- Business rule: revenue recognized on confirmed + shipped orders only, in GBP</span>
+
+<span class="kw">with</span> orders <span class="kw">as</span> (
+    <span class="cmt">-- Cross-project: source() required — dbt cross-project ref not supported</span>
+    <span class="kw">select</span> * <span class="kw">from</span> <span class="fn">{{ source('trusted', 'int_orders_with_customer') }}</span>
+),
+
+fx <span class="kw">as</span> (
+    <span class="kw">select</span> * <span class="kw">from</span> <span class="fn">{{ source('trusted', 'stg_exchange_rates') }}</span>
+),
+
+recognized <span class="kw">as</span> (
+    <span class="kw">select</span>
+        o.order_id,
+        o.order_date,
+        o.customer_id,
+        o.customer_name,
+        o.country_code,
+        <span class="cmt">-- Business rule: convert to GBP using daily rate</span>
+        <span class="fn">round</span>(o.total_amount_cents / 100.0 * fx.rate_to_gbp, 2) <span class="kw">as</span> revenue_gbp
+    <span class="kw">from</span> orders o
+    <span class="kw">left join</span> fx
+        <span class="kw">on</span>  o.currency    = fx.from_currency
+        <span class="kw">and</span> o.order_date = fx.rate_date
+    <span class="kw">where</span> o.status <span class="kw">in</span> (<span class="str">'confirmed'</span>, <span class="str">'shipped'</span>)
+)
+
+<span class="kw">select</span> * <span class="kw">from</span> recognized</pre>
+    </div>
+  </div>
+
+  <div id="ref-fct" class="tab-panel">
+    <div class="callout tip">
+      <div class="callout-title">When to use fct_</div>
+      <div class="callout-body">
+        Fact models are the consumable outputs of the Refined Zone. They represent business events or measurements at a clearly defined grain. Every fact model must state its grain explicitly in the model description.
+        <ul>
+          <li>Representing a business event: a sale, a payment, a shipment</li>
+          <li>Aggregating metrics to a defined time grain: daily, weekly, monthly</li>
+          <li>Building the dataset that BI tools will query directly</li>
+          <li>Grain must be explicit in the description: "one row per calendar day"</li>
+        </ul>
+      </div>
+    </div>
+    <div class="code-block" style="margin-top:16px">
+      <div class="code-block-header">
+        <div class="dots"><div class="dot" style="background:#FF5F57"></div><div class="dot" style="background:#FFBD2E"></div><div class="dot" style="background:#28C840"></div></div>
+        <span class="code-block-label">models/marts/fct_daily_revenue.sql — dbt-refined</span>
+      </div>
+      <pre>
+<span class="cmt">-- Materialization: table  |  Repo: dbt-refined</span>
+<span class="cmt">-- Grain: one row per calendar day</span>
+
+<span class="kw">with</span> revenue <span class="kw">as</span> (
+    <span class="kw">select</span> * <span class="kw">from</span> <span class="fn">{{ ref('int_revenue_recognized') }}</span>
+),
+
+daily <span class="kw">as</span> (
+    <span class="kw">select</span>
+        order_date                   <span class="kw">as</span> revenue_date,
+        <span class="fn">count</span>(<span class="kw">distinct</span> order_id)     <span class="kw">as</span> order_count,
+        <span class="fn">sum</span>(revenue_gbp)             <span class="kw">as</span> total_revenue_gbp,
+        <span class="fn">avg</span>(revenue_gbp)             <span class="kw">as</span> avg_order_value_gbp
+    <span class="kw">from</span> revenue
+    <span class="kw">group by</span> order_date
+)
+
+<span class="kw">select</span> * <span class="kw">from</span> daily</pre>
+    </div>
+  </div>
+
+  <div id="ref-dim" class="tab-panel">
+    <div class="callout tip">
+      <div class="callout-title">When to use dim_</div>
+      <div class="callout-body">
+        Dimension models represent business entities — the who, what, and where. They provide the descriptive context needed to filter and slice fact metrics in BI tools.
+        <ul>
+          <li>Representing a business entity: customer, product, date, geography</li>
+          <li>Providing descriptive attributes used to filter or group facts</li>
+          <li>One current row per entity — not a history or event table</li>
+          <li>Referenced via foreign key relationships from fct_ models</li>
+        </ul>
+      </div>
+    </div>
+    <div class="code-block" style="margin-top:16px">
+      <div class="code-block-header">
+        <div class="dots"><div class="dot" style="background:#FF5F57"></div><div class="dot" style="background:#FFBD2E"></div><div class="dot" style="background:#28C840"></div></div>
+        <span class="code-block-label">models/marts/dim_customer.sql — dbt-refined</span>
+      </div>
+      <pre>
+<span class="cmt">-- Materialization: table  |  Repo: dbt-refined</span>
+<span class="cmt">-- Grain: one row per customer (current record)</span>
+
+<span class="kw">with</span> customers <span class="kw">as</span> (
+    <span class="cmt">-- Cross-project: use source() not ref() — dbt cross-project ref not supported</span>
+    <span class="kw">select</span> * <span class="kw">from</span> <span class="fn">{{ source('trusted', 'stg_customers') }}</span>
+),
+
+final <span class="kw">as</span> (
+    <span class="kw">select</span>
+        customer_id,
+        customer_name,
+        country_code,
+        created_date,
+        <span class="kw">case</span>
+            <span class="kw">when</span> country_code <span class="kw">in</span> (<span class="str">'GB'</span>,<span class="str">'IE'</span>)       <span class="kw">then</span> <span class="str">'UK &amp; Ireland'</span>
+            <span class="kw">when</span> country_code <span class="kw">in</span> (<span class="str">'DE'</span>,<span class="str">'AT'</span>,<span class="str">'CH'</span>) <span class="kw">then</span> <span class="str">'DACH'</span>
+            <span class="kw">else</span> <span class="str">'Other'</span>
+        <span class="kw">end as</span> region
+    <span class="kw">from</span> customers
+    <span class="kw">where</span> is_deleted = <span class="kw">false</span>
+)
+
+<span class="kw">select</span> * <span class="kw">from</span> final</pre>
+    </div>
+  </div>
+
+  <div id="ref-structure" class="tab-panel">
+    <div class="code-block">
+      <div class="code-block-header">
+        <div class="dots"><div class="dot" style="background:#FF5F57"></div><div class="dot" style="background:#FFBD2E"></div><div class="dot" style="background:#28C840"></div></div>
+        <span class="code-block-label">dbt-refined repo — folder layout</span>
+      </div>
+      <pre>
+models/
+  intermediate/                       <span class="cmt">← int_ models: business rules and KPI logic</span>
+    int_revenue_recognized.sql
+    int_order_fulfilment_stats.sql
+    int_customer_lifetime_value.sql
+  marts/
+    fct_daily_revenue.sql             <span class="cmt">← fct_ models: facts at defined grain</span>
+    fct_order_fulfilment.sql
+    dim_customer.sql                  <span class="cmt">← dim_ models: business entities</span>
+    dim_product.sql
+    dim_date.sql
+  schema.yml                          <span class="cmt">← full docs and tests required on all models</span></pre>
+    </div>
+  </div>
+</div>
+
+<!-- LINEAGE -->
+<div class="section" id="lineage">
+  <div class="section-eyebrow"><span class="section-num">05</span> Deep Dive</div>
+  <h2 class="section-title">Lineage &amp; Cross-Zone Flow</h2>
+  <p class="section-intro">Because each zone is a separate GCP project and GitHub repository, cross-zone references are resolved via BigQuery dataset references. The diagram below shows the full flow from source through to consumer.</p>
+
+  <div class="code-block">
+    <div class="code-block-header">
+      <div class="dots"><div class="dot" style="background:#FF5F57"></div><div class="dot" style="background:#FFBD2E"></div><div class="dot" style="background:#28C840"></div></div>
+      <span class="code-block-label">Full lineage — source to consumer</span>
+    </div>
+    <pre style="font-size:13px;line-height:1.6">
+  +------------------------------------------------------------------+
+  |                     SOURCE SYSTEMS                               |
+  |        ERP  .  Finance Platform  .  CRM  .  Event Streams        |
+  +------------------------------------------------------------------+
+                            |  (ingestion pipelines)
+                            v
+  +------------------------------------------------------------------+
+  |              LANDING ZONE  (GCS)                                 |
+  |       Raw files landed as-is. Immutable after arrival.           |
+  +---------------------------+--------------------------------------+
+                            |  source() macro in dbt-raw
+                            v
+  +==================================================================+
+  |  RAW ZONE  .  GCP: project-raw  .  GitHub: dbt-raw               |
+  |                                                                  |
+  |    sources.yml                                                   |
+  |      source('raw_operations','orders')  --> BQ: raw_ops          |
+  |      source('raw_finance','invoices')   --> BQ: raw_fin          |
+  |      source('raw_crm','customers')      --> BQ: raw_crm          |
+  |                                                                  |
+  |    Source freshness tests run on every CI execution              |
+  +==========================+=======================================+
+                            |  cross-project: source() only
+                            |  (dbt cross-project ref not supported)
+                            v
+  +==================================================================+
+  |  TRUSTED ZONE  .  GCP: project-trusted  .  GitHub: dbt-trusted   |
+  |                                                                  |
+  |    Staging (stg_)                                                |
+  |      stg_orders      <-- source('raw_operations','orders')       |
+  |      stg_customers   <-- source('raw_crm','customers')           |
+  |      stg_invoices    <-- source('raw_finance','invoices')        |
+  |             |                                                    |
+  |             v                                                    |
+  |    Intermediate (int_) -- structural logic                       |
+  |      int_orders_with_customer  <-- ref(stg_orders)               |
+  |                                <-- ref(stg_customers)            |
+  |      int_invoices_enriched     <-- ref(stg_invoices)             |
+  |                                                                  |
+  +==========================+=======================================+
+                            |  cross-project: source() only
+                            |  (dbt cross-project ref not supported)
+                            v
+  +==================================================================+
+  |  REFINED ZONE  .  GCP: project-refined  .  GitHub: dbt-refined   |
+  |                                                                  |
+  |    Intermediate (int_) -- business logic                         |
+  |      int_revenue_recognized  <-- source('trusted',               |
+  |                                    'int_orders_with_customer')   |
+  |      int_customer_ltv        <-- source('trusted',               |
+  |                                    'int_orders_with_customer')   |
+  |             |                                                    |
+  |             v                                                    |
+  |    Marts (fct_ / dim_)                                           |
+  |      fct_daily_revenue  <-- ref(int_revenue_recognized)          |
+  |      dim_customer       <-- source('trusted','stg_customers')    |
+  |      dim_product        <-- source('trusted','stg_products')     |
+  |                                                                  |
+  +==========================+=======================================+
+                            |
+                            v
+  +------------------------------------------------------------------+
+  |              DOWNSTREAM CONSUMERS                                |
+  |     BI Tools  .  Analytics  .  Operational Reports  .  APIs      |
+  +------------------------------------------------------------------+</pre>
+  </div>
+
+  <h3 class="sub-title">Cross-Zone Reference Rules</h3>
+  <table class="data-table">
+    <thead>
+      <tr><th>Reference type</th><th>From</th><th>To</th><th>Resolved via</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Trusted ← Raw</td>
+        <td class="mono-cell">stg_ in dbt-trusted</td>
+        <td class="mono-cell">source() in dbt-raw</td>
+        <td>BigQuery: project-raw dataset</td>
+      </tr>
+      <tr>
+        <td>Refined ← Trusted int_</td>
+        <td class="mono-cell">int_ in dbt-refined</td>
+        <td class="mono-cell">int_ in dbt-trusted</td>
+        <td>source() declaration — dbt cross-project ref not supported</td>
+      </tr>
+      <tr>
+        <td>Refined ← Trusted stg_</td>
+        <td class="mono-cell">fct_/dim_ in dbt-refined</td>
+        <td class="mono-cell">stg_ in dbt-trusted</td>
+        <td>source() declaration — dbt cross-project ref not supported</td>
+      </tr>
+      <tr>
+        <td>Refined ← Refined int_</td>
+        <td class="mono-cell">fct_/dim_ in dbt-refined</td>
+        <td class="mono-cell">int_ in same repo</td>
+        <td>Standard DBT ref() — same project</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- PROJECT STRUCTURE -->
+<div class="section" id="structure">
+  <div class="section-eyebrow"><span class="section-num">06</span> Standards</div>
+  <h2 class="section-title">Project Structure</h2>
+  <p class="section-intro">Folder structure mirrors the three zones. Anyone navigating the repo should be able to find a model by zone without searching.</p>
+
+  <div class="code-block">
+    <div class="code-block-header">
+      <div class="dots">
+        <div class="dot" style="background:#FF5F57"></div>
+        <div class="dot" style="background:#FFBD2E"></div>
+        <div class="dot" style="background:#28C840"></div>
+      </div>
+      <span class="code-block-label">Folder Layout</span>
+    </div>
+    <pre>
+<span class="cmt"># dbt-trusted repo — mirrors dbt-refined for its own layers</span>
+models/
+  staging/               <span class="cmt">← TRUSTED ZONE · stg_ models</span>
+    finance/
+      stg_invoices.sql
+      stg_payments.sql
+    operations/
+      stg_orders.sql
+      stg_products.sql
+  intermediate/          <span class="cmt">← TRUSTED ZONE · structural int_ models</span>
+    finance/
+      int_invoices_enriched.sql
+    operations/
+      int_orders_with_customer.sql
+
+<span class="cmt"># dbt-refined repo</span>
+models/
+  intermediate/          <span class="cmt">← REFINED ZONE · business logic int_ models</span>
+    finance/
+      int_revenue_calc.sql
+  marts/                 <span class="cmt">← REFINED ZONE · fct_ and dim_ models</span>
+    finance/
+      fct_daily_revenue.sql
+      dim_customer.sql
+    operations/
+      fct_order_fulfilment.sql
+  sources/               <span class="cmt">← RAW ZONE declarations (dbt-raw repo)</span>
+    finance_sources.yml
+    operations_sources.yml</pre>
+  </div>
+
+
+</div>
+
+<!-- NAMING -->
+<div class="section" id="naming">
+  <div class="section-eyebrow"><span class="section-num">07</span> Standards</div>
+  <h2 class="section-title">Naming Conventions</h2>
+  <p class="section-intro">Names encode zone, layer, and subject. You should be able to understand a model's purpose from its name alone without opening the file.</p>
+
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Zone</th>
+        <th>Layer</th>
+        <th>Prefix</th>
+        <th>Example</th>
+        <th>Materialization</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="badge badge-raw">Raw</span></td>
+        <td>Source declaration</td>
+        <td class="mono-cell">—</td>
+        <td class="mono-cell">source('raw_finance', 'invoices')</td>
+        <td>External / n/a</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-trust">Trusted</span></td>
+        <td>Staging</td>
+        <td class="mono-cell">stg_</td>
+        <td class="mono-cell">stg_invoices, stg_orders</td>
+        <td>view</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-trust">Trusted</span></td>
+        <td>Intermediate</td>
+        <td class="mono-cell">int_</td>
+        <td class="mono-cell">int_orders_enriched</td>
+        <td>view / ephemeral</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-refined">Refined</span></td>
+        <td>Intermediate</td>
+        <td class="mono-cell">int_</td>
+        <td class="mono-cell">int_revenue_calc</td>
+        <td>ephemeral</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-refined">Refined</span></td>
+        <td>Mart — Fact</td>
+        <td class="mono-cell">fct_</td>
+        <td class="mono-cell">fct_daily_revenue</td>
+        <td>table</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-refined">Refined</span></td>
+        <td>Mart — Dimension</td>
+        <td class="mono-cell">dim_</td>
+        <td class="mono-cell">dim_customer, dim_product</td>
+        <td>table</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3 class="sub-title">Zone Boundary Rules</h3>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab(this,'boundary-rules')">Allowed refs</button>
+    <button class="tab-btn" onclick="switchTab(this,'boundary-examples')">Code examples</button>
+  </div>
+
+  <div id="boundary-rules" class="tab-panel active">
+    <div class="two-col">
+      <div class="callout tip">
+        <div class="callout-title">✓ Correct patterns</div>
+        <div class="callout-body">
+          <ul>
+            <li>stg_ refs <strong>source() only</strong></li>
+            <li>trusted int_ refs stg_ and other trusted int_</li>
+            <li>refined int_ refs trusted int_ via <strong>source()</strong> (cross-project)</li>
+            <li>fct_/dim_ refs refined int_ via ref(), or trusted stg_ via <strong>source()</strong> (cross-project)</li>
+            <li>No mart may ref() another mart</li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout warn">
+        <div class="callout-title">✗ Never do these</div>
+        <div class="callout-body">
+          <ul>
+            <li>Direct raw or trusted table reference (schema.table)</li>
+            <li>Mart referencing another mart</li>
+            <li>stg_ referencing an int_ model</li>
+            <li>ref() across GCP project boundaries — use source() instead</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="boundary-examples" class="tab-panel">
+    <div class="code-block">
+      <div class="code-block-header">
+        <div class="dots"><div class="dot" style="background:#FF5F57"></div><div class="dot" style="background:#FFBD2E"></div><div class="dot" style="background:#28C840"></div></div>
+        <span class="code-block-label">ref() and source() examples</span>
+      </div>
+      <pre>
+<span class="cmt">-- ✓ Staging: refs source() only (Raw Zone via BQ cross-repo)</span>
+<span class="kw">select</span> * <span class="kw">from</span> <span class="fn">{{ source('raw_finance', 'invoices') }}</span>
+
+<span class="cmt">-- ✓ Trusted int_: refs stg_ models</span>
+<span class="kw">select</span> * <span class="kw">from</span> <span class="fn">{{ ref('stg_invoices') }}</span>
+
+<span class="cmt">-- ✓ Refined int_: cross-project use source() not ref()</span>
+<span class="kw">select</span> * <span class="kw">from</span> <span class="fn">{{ source('trusted', 'int_invoices_enriched') }}</span>
+
+<span class="cmt">-- ✓ Mart: refs refined int_ in same project</span>
+<span class="kw">select</span> * <span class="kw">from</span> <span class="fn">{{ ref('int_revenue_recognized') }}</span>
+
+<span class="cmt">-- ✓ dim_: cross-project stg_ via source()</span>
+<span class="kw">select</span> * <span class="kw">from</span> <span class="fn">{{ source('trusted', 'stg_customers') }}</span>
+
+<span class="cmt">-- ✗ Never: direct schema.table reference</span>
+<span class="no">select * from raw.finance_invoices</span>
+
+<span class="cmt">-- ✗ Never: ref() across GCP project boundaries</span>
+<span class="no">select * from {{ ref('int_invoices_enriched') }}  -- use source() instead</span>
+
+<span class="cmt">-- ✗ Never: mart referencing another mart</span>
+<span class="no">select * from {{ ref('fct_daily_revenue') }}  -- inside another mart</span></pre>
+    </div>
+  </div>
+</div>
+
+<!-- MATERIALISATION -->
+<div class="section" id="materialization">
+  <div class="section-eyebrow"><span class="section-num">08</span> Standards</div>
+  <h2 class="section-title">Materialization</h2>
+  <p class="section-intro">Default materializations are set in dbt_project.yml and enforced by zone. Override only with a clear technical justification noted in your PR.</p>
+
+  <div class="code-block">
+    <div class="code-block-header">
+      <div class="dots"><div class="dot" style="background:#FF5F57"></div><div class="dot" style="background:#FFBD2E"></div><div class="dot" style="background:#28C840"></div></div>
+      <span class="code-block-label">dbt_project.yml</span>
+    </div>
+    <pre>
+models:
+  dbt_trusted:
+    staging:
+      <span class="str">+materialized</span>: view       <span class="cmt"># Trusted Zone · stg_</span>
+      <span class="str">+tags</span>: [<span class="str">'trusted'</span>, <span class="str">'staging'</span>]
+    intermediate:
+      <span class="str">+materialized</span>: view       <span class="cmt"># Trusted Zone · int_</span>
+      <span class="str">+tags</span>: [<span class="str">'trusted'</span>, <span class="str">'int'</span>]
+
+  dbt_refined:
+    intermediate:
+      <span class="str">+materialized</span>: ephemeral  <span class="cmt"># Refined Zone · int_ (business logic)</span>
+      <span class="str">+tags</span>: [<span class="str">'refined'</span>, <span class="str">'int'</span>]
+    marts:
+      <span class="str">+materialized</span>: table      <span class="cmt"># Refined Zone · fct_ and dim_</span>
+      <span class="str">+tags</span>: [<span class="str">'refined'</span>, <span class="str">'mart'</span>]</pre>
+  </div>
+
+  <div class="callout info">
+    <div class="callout-title">Override guidance</div>
+    <div class="callout-body">Use <strong>incremental</strong> on large fact tables that grow continuously. Use <strong>table</strong> on trusted intermediates referenced heavily downstream. Always document the reason in the model config comment and PR description.</div>
+  </div>
+</div>
+
+<!-- TESTING -->
+<div class="section" id="testing">
+  <div class="section-eyebrow"><span class="section-num">09</span> Standards</div>
+  <h2 class="section-title">Testing</h2>
+  <p class="section-intro">Tests are the contract between zones. Test coverage requirements increase as data moves toward the Refined Zone. Models without minimum tests cannot be merged.</p>
+
+  <table class="data-table">
+    <thead>
+      <tr><th>Test</th><th>Raw Zone</th><th>Trusted Zone</th><th>Refined Zone</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="mono-cell">source freshness</td>
+        <td>✅ Required</td>
+        <td>—</td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td class="mono-cell">not_null</td>
+        <td>—</td>
+        <td>Required on PKs and critical FK columns</td>
+        <td>Required on all key and non-nullable fields</td>
+      </tr>
+      <tr>
+        <td class="mono-cell">unique</td>
+        <td>—</td>
+        <td>Required on all primary keys</td>
+        <td>Required on all primary keys</td>
+      </tr>
+      <tr>
+        <td class="mono-cell">accepted_values</td>
+        <td>—</td>
+        <td>Recommended on status / type columns</td>
+        <td>Required on all status, type, category fields</td>
+      </tr>
+      <tr>
+        <td class="mono-cell">relationships</td>
+        <td>—</td>
+        <td>Recommended on foreign keys</td>
+        <td>Required on all foreign key columns</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="code-block">
+    <div class="code-block-header">
+      <div class="dots"><div class="dot" style="background:#FF5F57"></div><div class="dot" style="background:#FFBD2E"></div><div class="dot" style="background:#28C840"></div></div>
+      <span class="code-block-label">schema.yml — test examples</span>
+    </div>
+    <pre>
+models:
+  - name: <span class="str">stg_invoices</span>
+    description: <span class="str">'Staged invoices — Trusted Zone'</span>
+    columns:
+      - name: <span class="str">invoice_id</span>
+        tests:
+          - <span class="fn">not_null</span>
+          - <span class="fn">unique</span>
+      - name: <span class="str">status</span>
+        tests:
+          - <span class="fn">accepted_values</span>:
+              values: [<span class="str">'draft'</span>, <span class="str">'sent'</span>, <span class="str">'paid'</span>, <span class="str">'overdue'</span>, <span class="str">'cancelled'</span>]
+
+  - name: <span class="str">fct_daily_revenue</span>
+    description: <span class="str">'Daily revenue by category — Refined Zone'</span>
+    columns:
+      - name: <span class="str">revenue_date</span>
+        tests: [<span class="fn">not_null</span>]
+      - name: <span class="str">customer_id</span>
+        tests:
+          - <span class="fn">relationships</span>:
+              to: <span class="fn">ref('dim_customer')</span>
+              field: <span class="str">customer_id</span></pre>
+  </div>
+</div>
+
+<!-- DOCUMENTATION -->
+<div class="section" id="docs">
+  <div class="section-eyebrow"><span class="section-num">10</span> Standards</div>
+  <h2 class="section-title">Documentation</h2>
+  <p class="section-intro">Documentation is part of the data product. Consumers of a Refined Zone model must be able to understand what it contains, how it is built, and who owns it without asking an engineer.</p>
+
+  <div class="two-col">
+    <div class="rule-card">
+      <div class="rule-card-title">Trusted Zone — minimum</div>
+      <ul>
+        <li><span class="arrow">→</span>Model description: what it represents and what cleaning was applied</li>
+        <li><span class="arrow">→</span>Key columns and non-obvious fields</li>
+        <li><span class="arrow">→</span>Known data quality issues or caveats</li>
+      </ul>
+    </div>
+    <div class="rule-card">
+      <div class="rule-card-title">Refined Zone — required</div>
+      <ul>
+        <li><span class="arrow">→</span>Full description with grain, filters, and business rules</li>
+        <li><span class="arrow">→</span>All columns described</li>
+        <li><span class="arrow">→</span>Exclusions, time zones, and currencies stated</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="code-block">
+    <div class="code-block-header">
+      <div class="dots"><div class="dot" style="background:#FF5F57"></div><div class="dot" style="background:#FFBD2E"></div><div class="dot" style="background:#28C840"></div></div>
+      <span class="code-block-label">Refined Zone model doc template</span>
+    </div>
+    <pre>
+- name: <span class="str">fct_daily_revenue</span>
+  description: <span class="str">&gt;
+    Daily revenue aggregated from confirmed and shipped orders.
+    Grain: one row per calendar day per product category.
+    Excludes: cancelled orders, refunded transactions, test accounts.
+    Currency: all values in GBP.
+    Time zone: UTC.</span>
+  config:
+    tags: [<span class="str">'finance'</span>, <span class="str">'refined'</span>, <span class="str">'fct'</span>]</pre>
+  </div>
+
+  <div class="callout tip">
+    <div class="callout-title">Good descriptions answer these questions</div>
+    <div class="callout-body">
+      <ul>
+        <li>What is the grain of this model — one row per what?</li>
+        <li>What business process or source does it represent?</li>
+        <li>Are there filters, exclusions, or business rules applied?</li>
+        <li>What time zone and currency are used?</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- GIT -->
+<div class="section" id="git">
+  <div class="section-eyebrow"><span class="section-num">11</span> Workflow</div>
+  <h2 class="section-title">Git Workflow</h2>
+  <p class="section-intro">Three separate repositories — one per zone. Each has its own main branch, dev branch, and feature branches.</p>
+
+  <!-- Git flow visual -->
+  <div class="git-flow-visual">
+    <!-- main -->
+    <div class="git-node">
+      <div class="git-node-circle" style="background:#C2410C;box-shadow:0 0 10px rgba(194,65,12,0.35)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><circle cx="12" cy="12" r="4"/></svg>
+      </div>
+      <div class="git-node-label" style="color:#C2410C;font-weight:600">main<br><span style="color:var(--ink4);font-weight:400">protected</span></div>
+    </div>
+    <div class="git-connector-h" style="background:linear-gradient(90deg,#C2410C,#FB923C)"></div>
+
+    <!-- dev -->
+    <div class="git-node">
+      <div class="git-node-circle" style="background:#60A5FA;box-shadow:0 0 8px rgba(96,165,250,0.3)">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><circle cx="12" cy="12" r="4"/></svg>
+      </div>
+      <div class="git-node-label" style="color:#2563EB">dev</div>
+    </div>
+    <div class="git-connector-h" style="background:linear-gradient(90deg,#60A5FA,#A78BFA)"></div>
+
+    <!-- feature branches -->
+    <div class="git-branch-group">
+      <div class="git-branch-stem" style="background:linear-gradient(#60A5FA,#A78BFA)"></div>
+      <div class="git-branches">
+        <div class="git-branch-node">
+          <div class="git-branch-dot" style="border-color:#A78BFA"></div>
+          <div class="git-branch-label" style="color:#6D28D9">feature/<br>raw-*</div>
+          <div class="pr-badge-sm">PR → dev</div>
+        </div>
+        <div class="git-branch-node">
+          <div class="git-branch-dot" style="border-color:#38BDF8"></div>
+          <div class="git-branch-label" style="color:#0369A1">feature/<br>trusted-*</div>
+          <div class="pr-badge-sm">PR → dev</div>
+        </div>
+        <div class="git-branch-node">
+          <div class="git-branch-dot" style="border-color:#34D399"></div>
+          <div class="git-branch-label" style="color:#065F46">feature/<br>refined-*</div>
+          <div class="pr-badge-sm">PR → dev</div>
+        </div>
+      </div>
+    </div>
+    <div class="git-connector-h" style="background:linear-gradient(90deg,#A78BFA,#60A5FA);width:80px"></div>
+
+    <!-- CI -->
+    <div class="git-node">
+      <div style="background:#FEF3C7;border:2px solid #FCD34D;border-radius:10px;padding:12px 18px;text-align:center">
+        <div style="font-family:var(--mono);font-size:13px;font-weight:600;color:#92400E">CI CHECKS</div>
+        <div style="font-family:var(--mono);font-size:12px;color:#78716C;margin-top:4px">dbt compile</div>
+        <div style="font-family:var(--mono);font-size:12px;color:#78716C">dbt test</div>
+      </div>
+    </div>
+    <div class="git-connector-h" style="background:linear-gradient(90deg,#FCD34D,#C2410C)"></div>
+
+    <!-- main (merge back) -->
+    <div class="git-node">
+      <div class="git-node-circle" style="background:#C2410C">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+      </div>
+      <div class="git-node-label" style="color:#C2410C;font-weight:600">main<br><span style="color:var(--ink4);font-weight:400">merged</span></div>
+    </div>
+  </div>
+
+  <div class="code-block">
+    <div class="code-block-header">
+      <div class="dots"><div class="dot" style="background:#FF5F57"></div><div class="dot" style="background:#FFBD2E"></div><div class="dot" style="background:#28C840"></div></div>
+      <span class="code-block-label">Starting a feature branch</span>
+    </div>
+    <pre>
+<span class="cmt"># Always branch from dev, never main</span>
+<span class="fn">git checkout</span> dev && <span class="fn">git pull</span> origin dev
+<span class="fn">git checkout</span> -b feature/trusted-finance-stg_invoices
+
+<span class="cmt"># Commit format: [type]([zone]): description</span>
+<span class="fn">git commit</span> -m <span class="str">"feat(trusted): add stg_invoices staging model"</span>
+<span class="fn">git commit</span> -m <span class="str">"fix(trusted): correct null handling in int_orders_enriched"</span>
+<span class="fn">git commit</span> -m <span class="str">"docs(refined): add grain description to fct_daily_revenue"</span>
+<span class="fn">git commit</span> -m <span class="str">"test(raw): add source freshness to invoices source"</span></pre>
+  </div>
+
+  <div class="callout warn">
+    <div class="callout-title">Keep branches short-lived</div>
+    <div class="callout-body">The longer a branch lives, the more it diverges from dev and the harder it becomes to merge. Aim to open a PR within 2–3 days of starting. If the work is too large, break it into smaller PRs.</div>
+  </div>
+</div>
+
+<!-- CI -->
+<div class="section" id="ci">
+  <div class="section-eyebrow"><span class="section-num">12</span> Workflow</div>
+  <h2 class="section-title">CI Pipeline</h2>
+  <p class="section-intro">Automated checks run on every pull request across all three repos. They enforce zone boundaries and test coverage so reviewers can focus on logic and design.</p>
+
+  <div class="three-col">
+    <div class="rule-card" style="border-color:#C4B5FD">
+      <div class="rule-card-title" style="color:var(--raw)">dbt-raw CI</div>
+      <ul>
+        <li><span class="arrow" style="color:var(--raw)">→</span>dbt compile</li>
+        <li><span class="arrow" style="color:var(--raw)">→</span>dbt source freshness</li>
+        <li><span class="arrow" style="color:var(--raw)">→</span>Fails if source exceeds error_after</li>
+      </ul>
+    </div>
+    <div class="rule-card" style="border-color:#7DD3FC">
+      <div class="rule-card-title" style="color:var(--trust)">dbt-trusted CI</div>
+      <ul>
+        <li><span class="arrow" style="color:var(--trust)">→</span>dbt compile</li>
+        <li><span class="arrow" style="color:var(--trust)">→</span>dbt test --select state:modified+</li>
+        <li><span class="arrow" style="color:var(--trust)">→</span>Tests on changed models and dependents</li>
+      </ul>
+    </div>
+    <div class="rule-card" style="border-color:#6EE7B7">
+      <div class="rule-card-title" style="color:var(--refined)">dbt-refined CI</div>
+      <ul>
+        <li><span class="arrow" style="color:var(--refined)">→</span>Full dbt test suite</li>
+        <li><span class="arrow" style="color:var(--refined)">→</span>Documentation check</li>
+        <li><span class="arrow" style="color:var(--refined)">→</span>Peer review required</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ROLLOUT -->
+<div class="section" id="rollout">
+  <div class="section-eyebrow"><span class="section-num">13</span> Workflow</div>
+  <h2 class="section-title">Rollout Plan</h2>
+  <p class="section-intro">Three phases. New work follows the standard immediately. Existing models are tracked for refactor in Phase 3 without blocking current delivery.</p>
+
+  <div class="phases">
+    <div class="phase-item">
+      <div class="phase-dot"><div class="phase-dot-inner active"></div></div>
+      <div class="phase-content">
+        <div class="phase-label">Phase 1 · Now</div>
+        <div class="phase-title">Align</div>
+        <div class="phase-body">Zone model agreed. Branch protection live on all three repos. PR template in place. This guide circulated and agreed by all engineers.</div>
+        <div class="phase-done">✓ Done when: both engineers agree on the guide and no direct commits to dev or main</div>
+      </div>
+    </div>
+    <div class="phase-item">
+      <div class="phase-dot"><div class="phase-dot-inner"></div></div>
+      <div class="phase-content">
+        <div class="phase-label">Phase 2 · Weeks 1–4</div>
+        <div class="phase-title">New Work Only</div>
+        <div class="phase-body">All new models follow zone structure, naming, and documentation standards. CI pipeline live across all three repos. Source freshness declared for all Raw Zone sources.</div>
+        <div class="phase-done">✓ Done when: zero new models merged without passing PR and CI green on all new work</div>
+      </div>
+    </div>
+    <div class="phase-item">
+      <div class="phase-dot"><div class="phase-dot-inner"></div></div>
+      <div class="phase-content">
+        <div class="phase-label">Phase 3 · Weeks 5–10</div>
+        <div class="phase-title">Backfill</div>
+        <div class="phase-body">Existing models refactored to zone structure. Documentation and test coverage backfilled across all mart models. All raw table references moved to source() declarations.</div>
+        <div class="phase-done">✓ Done when: all models pass dbt test and all Refined Zone models fully documented</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CHECKLIST -->
+<div class="section" id="checklist">
+  <div class="section-eyebrow"><span class="section-num">14</span> Reference</div>
+  <h2 class="section-title">PR Checklist</h2>
+  <p class="section-intro">Tick these off before every pull request. Click each item to mark it complete.</p>
+
+  <div style="margin-bottom:10px">
+    <div class="progress-bar-wrap"><div class="progress-bar" id="progress-bar" style="width:0%"></div></div>
+    <div class="progress-label" id="progress-label">0 / 10 complete</div>
+  </div>
+
+  <div class="checklist" id="checklist">
+    <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"><svg class="check-box-tick" viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="check-text">Model is in the correct zone folder with the correct prefix (stg_, int_, fct_, dim_)</div><span class="check-badge" style="background:var(--raw-bg);color:var(--raw);border-color:#C4B5FD">structure</span></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"><svg class="check-box-tick" viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="check-text">Raw Zone accessed only via source() in staging models — no direct schema.table references</div><span class="check-badge" style="background:var(--raw-bg);color:var(--raw);border-color:#C4B5FD">zones</span></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"><svg class="check-box-tick" viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="check-text">All cross-model references use ref() — no hardcoded schema references</div><span class="check-badge" style="background:var(--trust-bg);color:var(--trust);border-color:#7DD3FC">refs</span></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"><svg class="check-box-tick" viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="check-text">No zone boundary violations — no mart refs mart, no stg refs int</div><span class="check-badge" style="background:var(--raw-bg);color:var(--raw);border-color:#C4B5FD">zones</span></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"><svg class="check-box-tick" viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="check-text">schema.yml updated with zone-appropriate tests and descriptions</div><span class="check-badge" style="background:var(--trust-bg);color:var(--trust);border-color:#7DD3FC">testing</span></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"><svg class="check-box-tick" viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="check-text">not_null and unique tests on all primary keys</div><span class="check-badge" style="background:var(--trust-bg);color:var(--trust);border-color:#7DD3FC">testing</span></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"><svg class="check-box-tick" viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="check-text">Source freshness declared if a new Raw Zone source is introduced</div><span class="check-badge" style="background:var(--raw-bg);color:var(--raw);border-color:#C4B5FD">freshness</span></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"><svg class="check-box-tick" viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="check-text">dbt compile passes locally with no errors</div><span class="check-badge" style="background:var(--git-bg);color:var(--git);border-color:#FCD34D">CI</span></div>
+    <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"><svg class="check-box-tick" view
+</div><!-- main -->
+<script>
+// ── Nav click handler ──────────────────────────────────────────────────
+function setActive(el) {
+  document.querySelectorAll(".nav-item").forEach(i => i.classList.remove("active"));
+  el.classList.add("active");
+}
+
+// ── Scroll-spy: position-based, works for any section height ──────────
+const main = document.querySelector(".main");
+const allSections = Array.from(document.querySelectorAll(".section, .hero"));
+const navItems = document.querySelectorAll(".nav-item");
+
+function updateActiveNav() {
+  // Find the section whose top is closest to 25% down the viewport
+  const trigger = window.scrollY + window.innerHeight * 0.25;
+  let current = allSections[0];
+  for (const s of allSections) {
+    if (s.offsetTop <= trigger) current = s;
+  }
+  if (current) {
+    navItems.forEach(n => {
+      n.classList.toggle("active", n.getAttribute("href") === "#" + current.id);
+    });
+  }
+}
+
+window.addEventListener("scroll", updateActiveNav, { passive: true });
+updateActiveNav(); // run once on load
+
+// ── Tabs ───────────────────────────────────────────────────────────────
+function switchTab(btn, panelId) {
+  const section = btn.closest(".section");
+  section.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+  section.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
+  btn.classList.add("active");
+  document.getElementById(panelId).classList.add("active");
+}
+
+// ── Checklist ──────────────────────────────────────────────────────────
+function toggleCheck(el) {
+  el.classList.toggle("checked");
+  updateProgress();
+}
+function updateProgress() {
+  const items = document.querySelectorAll(".check-item");
+  const done  = document.querySelectorAll(".check-item.checked").length;
+  const pct   = Math.round((done / items.length) * 100);
+  document.getElementById("progress-bar").style.width = pct + "%";
+  document.getElementById("progress-label").textContent = done + " / " + items.length + " complete";
+}
+</script>
+</body>
+</html>
